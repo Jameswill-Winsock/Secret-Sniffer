@@ -5,6 +5,12 @@ reg cin_tb;
 wire [15:0] sum_tb;
 wire cout_tb;
 
+integer i;
+integer num_random = 2000;
+integer pass_count = 0;
+integer fail_count = 0;
+string rand_name;
+
 han_carlson dut(
     .a(a_tb),
     .b(b_tb),
@@ -41,7 +47,14 @@ initial begin
     a_tb = 16'hAAAA; b_tb = 16'h5555; cin_tb = 1;
     #10;
     check_result("test 7");
-    
+    for (i=0; i<num_random; i=i+1) begin
+        a_tb = $random;
+        b_tb = $random;
+        cin_tb = $random;
+        #10;
+        $sformat(rand_name, "random %0d", i);
+        check_result(rand_name);
+    end
     $finish;
 end
 
