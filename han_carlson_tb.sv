@@ -38,7 +38,19 @@ initial begin
 
     a_tb = 16'hFFFF; b_tb = 16'hFFFF; cin_tb = 0;
     #10;
-    check_result("test 5");
+    check_result("test 5a");
+
+    a_tb = 16'hFFFF; b_tb = 16'h0000; cin_tb = 1;
+    #10;
+    check_result("test 5b");
+
+    a_tb = 16'hFFFF; b_tb = 16'hFFFF; cin_tb = 1;
+    #10;
+    check_result("test 5c");
+
+    a_tb = 16'h0000; b_tb = 16'hFFFF; cin_tb = 1;
+    #10;
+    check_result("test 5d");
 
     a_tb = 16'hAAAA; b_tb = 16'h5555; cin_tb = 0;
     #10;
@@ -55,6 +67,9 @@ initial begin
         $sformat(rand_name, "random %0d", i);
         check_result(rand_name);
     end
+
+    $display("random regression done: %0d passed, %0d failed", pass_count, fail_count);
+
     $finish;
 end
 
@@ -63,11 +78,13 @@ task check_result(input string test_name);
     begin
         expected = a_tb + b_tb + cin_tb;
         if ( {cout_tb, sum_tb} !== expected ) begin
+            fail_count = fail_count + 1;
             $display("Fail %s", test_name);
             $display("a=%h, b=%h, cin=%d", a_tb, b_tb, cin_tb);
             $display("expected sum=%h, cout=%d", expected[15:0], expected[16]);
             $display("dut sum=%h, cout=%d", sum_tb, cout_tb);
         end else begin
+            pass_count = pass_count + 1;
             $display ("pass %s", test_name);
         end
     end
