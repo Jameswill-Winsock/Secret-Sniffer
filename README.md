@@ -1,2 +1,53 @@
-# Tempest
-An FPGA based implementation to demonstrate side-channel attacks on modern cryptography algorithms such as AES, RSA, ML-KEM etc.
+# Tempest — EM Side-Channel Analysis Rig
+
+# Status: 
+Early build. Target board bring-up in progress. Made for Stardance hacklcub.
+
+# Description
+Tempest is an electromagnetic side-channel analysis platform: it captures the EM field a chip radiates while it does cryptographic work, correlates that leakage against known plaintext/ciphertext, and tries to recover key material without ever touching a trace. It's the offensive counterpart to a ML-KEM (Kyber) post-quantum crypto accelerator I'm building on a Renesas SLG47910 FPGA, which gives me a real, fully-characterized target running actual PQC math; Tempest is the rig that attacks it.
+
+The core question: how much information actually leaks out of a chip's EM field during a crypto operation, and can you recover a key from it with hobbyist-tier gear? That's what I want to find out, whether we can extract useful info from something like a TPM chip onboard a motherboard.
+
+# Why EM and not power analysis
+Power analysis (shunt resistor + scope on the supply rail) is the classical approach, but it requires physically modifying the target board — desoldering, trace cuts, shunt insertion. That's fine for a $2 dev board. It's not something I'm willing to do to a motherboard TPM or anything I actually want to use again afterwards. EM probing is non-invasive: you hold a loop probe near the package and read the field. Same underlying leakage (both come from switching current), different tap point. This also opens up the possibility of reusing same hardware on different targets as well, and makes it a useful and portable piece of equipment that one can use in their research.
+
+# Architecture
+Two boards, two roles:
+- Target ("TPM stand-in"): Tang Primer 20K (already own the dev board; carrier/dock board is part of this request). Runs a simple crypto workload to be attacked — stands in for something like a motherboard TPM.
+- Analysis board: Tang Mega 138K + Dock. Handles high-speed sampling of the EM probe front-end, synced against the target's operation, and does the heavy correlation work that a microcontroller can't keep up with.
+
+Initial commit ships the Shrike-Lite ML-KEM accelerator itself (1.2K LUT Renesas board), which becomes the first real analysis target once the capture pipeline is up.
+
+# Roadmap
+- Ship Shrike-Lite ML-KEM accelerator (nearly done; see below) as the initial concrete target.
+- Analog front-end: hand-wound loop probes, LNA, shielding, and RTL-SDR capture path validated against a known-leaky reference (e.g. an unshielded AES implementation) before touching Kyber.
+- Trigger/sync harness between target and capture board so traces are aligned to the crypto operation, not free-running.
+- Correlation Power/EM Analysis (CPA) pipeline against the Shrike-Lite target.
+- Scale to a more realistic target (motherboard TPM) once the pipeline is validated on a known-good case.
+
+# Hardware
+| Item | Price | Notes |
+| Used Siglent SDS1104X-E or similar, or whatever scope I can buy cheap | $250-300 | (Real triggering (edge/pulse/pattern) for syncing to the target's crypto op, since an RTL-SDR alone can't do this and isn't a substitute for verification/sync work)
+| Tang Mega 138K + Dock | $130–175 | Will act as the main analysis board; Need all those LUTs for the analysis |
+| Tang Primer 20K + Dock | $20–40 | (carrier board only, as I already own the core board) will act as the stand-in chip for a TPM until we get the analysis working properly |
+| RTL-SDR dongle | $30–40 | a scope takes time to buy, since if I want it cheap, I'll have to go offline to talk to actual suppliers |
+| Wideband LNA module | $15–40| 1MHz–1GHz, 20–30dB |
+| RG178 coax, SMA connectors, adapters, attenuator kit | $30–60| |
+| Enamelled magnet wire, ferrite formers | $10–20 | |
+| Bench linear PSU | $40–150 | used, or new, depending on the market |
+| Mini XY positioning stage | $40–150 | Motorized stages are expensive; manual micrometer stages are much cheaper |
+| Perfboard/breadboard, decoupling caps, jumpers, enclosure/foil | $20–40 | will switch perfboards for pcb when I have a known good schematic |
+
+# Repo layout (subject to change)
+/rtl            — target-side crypto implementations (Shrike-Lite Kyber accelerator, later targets)
+/analysis       — capture + correlation pipeline (Python/NumPy for now, may push hot paths to the Mega 138K)
+/probes         — probe winding notes, LNA front-end schematics
+/docs           — writeups, leakage characterization notes
+
+# Why this matters
+Most public EM side-channel work either targets toy AES implementations or uses lab-grade near-field scanning rigs that cost tens of thousands of dollars. There's a real gap in documented, reproducible, low-cost EM side-channel analysis against post-quantum crypto specifically; ML-KEM side-channel resistance is an active research area (and a pretty hot one too - there's a hell lot of researchers taking a crack at it) and having a from-scratch hardware+software stack to poke at it is worth more to me than a paper result I can't independently reproduce. Besides, this could be useful as an actual field tool for use case like actual chip design, where you could check your EM leakage for chip instead of relying on expensive equipment or just simulations in Synopsys or Cadence (sure, it's not for every use case, but for those where you're explicitly building your ASIC for security, it's always worth it).
+
+Oh, and it's cool, isn't it? The math can't be cracked, but we sure as hell can crack the data anyways because of bad engineering decisions. :)
+
+# License
+GNU GPLv3
