@@ -1,0 +1,11 @@
+Item,Estimated Price (USD),Notes
+"Used Siglent SDS1104X-E or similar, or whatever scope I can buy cheap","250-450","Real triggering (edge/pulse/pattern) for syncing to the target's crypto operation, since an RTL-SDR alone can't do this and isn't a substitute for verification/sync work. Price depends on sourcing via offline vendor contacts."
+"Tang Mega 138K + Dock","130-175","Main analysis board. Need the available LUTs for the analysis."
+"Tang Primer 20K + Dock","20-40","Carrier board only, as the core board is already owned. Will act as the stand-in chip for a TPM until the analysis is working properly."
+"RTL-SDR dongle","30-40","Temporary solution while sourcing an oscilloscope."
+"Wideband LNA module","15-40","1 MHz-1 GHz, 20-30 dB gain."
+"RG178 coax, SMA connectors, adapters, attenuator kit","30-60","RF interconnects and attenuation accessories."
+"Enamelled magnet wire, ferrite formers","10-20","Materials for making near-field probes."
+"Bench linear PSU","40-150","Used or new, depending on market availability."
+"Mini XY positioning stage","40-150","Manual micrometer stage preferred due to lower cost compared to motorized stages."
+"Perfboard/breadboard, decoupling caps, jumpers, enclosure/foil","20-40","Will replace perfboards with a PCB after validating the schematic."
