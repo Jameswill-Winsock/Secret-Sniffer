@@ -1,5 +1,5 @@
 // ============================================================================
-//  shrike_ntt_top - Kyber forward/inverse NTT + basemul accelerator
+//  ntt_top - Kyber forward/inverse NTT + basemul accelerator
 //  RP2040  <--SPI-->  FPGA  <-->  SLG47910 BRAM hard macros
 //
 //  BRAM map (RATIO=00, 512x8 each, all enables active-LOW, registered read):
@@ -17,7 +17,7 @@
 //    0x40 STATUS    : next MISO byte = {7'b0, done}
 //    0x50 READ_A    : 512 bytes <- A  (result, lo,hi,...)
 // ============================================================================
-(* top *) module shrike_ntt_top (
+(* top *) module ntt_top (
     (* iopad_external_pin, clkbuf_inhibit *) input  clk,
     (* iopad_external_pin *)                 output clk_en,
     (* iopad_external_pin *)                 input  rst_n,
