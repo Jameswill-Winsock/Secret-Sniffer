@@ -21,7 +21,7 @@ han_carlson u_stage1 (
 );
 
 wire [15:0] b2 = op ? 16'h0D01 : 16'hF2FF;
-wire cin2 = op ? 1'b0 : 1'b1;
+wire cin2 = 1'b0;
 
 han_carlson u_stage2 (
     .a(sum1),

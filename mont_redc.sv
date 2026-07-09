@@ -1,3 +1,10 @@
+//ver 3, again (bahahahaha, just when you think shit is fixed, NOPE)
+//[FSM]  mq4_low -> mq4_high (was mq3_high);  mq4_high -> add_t_low (was mq4_low)
+//[MUX]  added mq1_high, mq4_high, add_t_high cases (were falling through to default=0)
+//[MUX]  mq4_low  cin: carry_flag -> 0 (was double-adding a stale carry)
+//[MUX]  add_t_low add_b: mq_accumulate_high -> mq_accumulate_low; cin carry_flag -> 0
+//[INST] dropped meaningless "#(16)" on han_carlson (module isn't parameterized)
+
 //ver 2, post naive implement, changelog:
 //observed a serious bug: add_a and add_b are register based, so they only take their new value on clock edge post assignment
 //add_sum is combinational i.e. it reflects whatever add_a and add_b hold which was set on the previous cycle
@@ -19,7 +26,7 @@ module mont_redc(
 );
 
 localparam [15:0] q = 16'h0D01;    //3329
-localparam [15:0] qprime = 16'hF2FF; //NOT F2FF(62207); 0CFF(3327), actually qprime, since q*qprime = -1 mod 2^16
+localparam [15:0] qprime = 16'h0CFF; //NOT F2FF(62207); 0CFF(3327), actually qprime, since q*qprime = -1 mod 2^16
 
 reg [3:0] state;
 
@@ -74,6 +81,11 @@ always @(*) begin
             add_a = mq_accumulate_low;
             add_b = m_accumulate;
         end
+        mq1_high: begin
+            add_a = mq_accumulate_high;
+            add_b = 16'h0000;
+            add_cin = carry_flag;
+        end
         mq2_low: begin
             add_a = mq_accumulate_low;
             add_b = {m_accumulate[7:0], 8'h00};
@@ -95,10 +107,20 @@ always @(*) begin
         mq4_low: begin
             add_a = mq_accumulate_low;
             add_b = {m_accumulate[4:0], 11'h000};
+            add_cin = 1'b0;
+        end
+        mq4_high: begin
+            add_a = mq_accumulate_high;
+            add_b = {5'h00, m_accumulate[15:5]};
             add_cin = carry_flag;
         end
         add_t_low: begin
             add_a = t_low_reg;
+            add_b = mq_accumulate_low;
+            add_cin = 1'b0;
+        end
+        add_t_high: begin
+            add_a = {8'h00, t_high_reg};
             add_b = mq_accumulate_high;
             add_cin = carry_flag;
         end
@@ -177,11 +199,11 @@ always @(posedge clk) begin
         mq4_low: begin
             mq_accumulate_low <= add_sum;
             carry_flag <= add_cout;
-            state <= mq3_high;
+            state <= mq4_high;
         end
         mq4_high: begin
             mq_accumulate_high <= add_sum;
-            state <= mq4_low;
+            state <= add_t_low;
         end
 
         add_t_low: begin
