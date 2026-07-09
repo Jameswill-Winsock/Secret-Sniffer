@@ -1,4 +1,4 @@
-// mont_redc v3 - bug fixes over your v2:
+// mont_redc v3 - bug fixes over v2:
 //  [FSM]  mq4_low -> mq4_high (was mq3_high);  mq4_high -> add_t_low (was mq4_low)
 //  [MUX]  added mq1_high, mq4_high, add_t_high cases (were falling through to default=0)
 //  [MUX]  mq4_low  cin: carry_flag -> 0 (was double-adding a stale carry)
