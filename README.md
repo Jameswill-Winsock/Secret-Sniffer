@@ -26,8 +26,9 @@ Initial commit ships the Shrike-Lite ML-KEM accelerator itself (1.2K LUT Renesas
 - Scale to a more realistic target (motherboard TPM) once the pipeline is validated on a known-good case.
 
 # Hardware
-| Item | Price | Notes |
-| Used Siglent SDS1104X-E or similar, or whatever scope I can buy cheap | $250-300 | (Real triggering (edge/pulse/pattern) for syncing to the target's crypto op, since an RTL-SDR alone can't do this and isn't a substitute for verification/sync work)
+| Item | Est. Price (USD) | Notes |
+|---|---|---|
+| Used Siglent SDS1104X-E or similar, or whatever scope I can buy cheap | $250-450 (TBD) | (Real triggering (edge/pulse/pattern) for syncing to the target's crypto op, since an RTL-SDR alone can't do this and isn't a substitute for verification/sync work). As for price, it depends on sourcing via offline vendor contacts I know, which is where I expect to get them the cheapest. |
 | Tang Mega 138K + Dock | $130–175 | Will act as the main analysis board; Need all those LUTs for the analysis |
 | Tang Primer 20K + Dock | $20–40 | (carrier board only, as I already own the core board) will act as the stand-in chip for a TPM until we get the analysis working properly |
 | RTL-SDR dongle | $30–40 | a scope takes time to buy, since if I want it cheap, I'll have to go offline to talk to actual suppliers |
