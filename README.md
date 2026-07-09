@@ -12,6 +12,8 @@ The core question: how much information actually leaks out of a chip's EM field 
 Power analysis (shunt resistor + scope on the supply rail) is the classical approach, but it requires physically modifying the target board — desoldering, trace cuts, shunt insertion. That's fine for a $2 dev board. It's not something I'm willing to do to a motherboard TPM or anything I actually want to use again afterwards. EM probing is non-invasive: you hold a loop probe near the package and read the field. Same underlying leakage (both come from switching current), different tap point. This also opens up the possibility of reusing same hardware on different targets as well, and makes it a useful and portable piece of equipment that one can use in their research.
 
 # Architecture
+<img width="1529" height="654" alt="image" src="https://github.com/user-attachments/assets/4d93edb7-ad8e-4225-bf47-7403a4a83900" />
+
 Two boards, two roles:
 - Target ("TPM stand-in"): Tang Primer 20K (already own the dev board; carrier/dock board is part of this request). Runs a simple crypto workload to be attacked — stands in for something like a motherboard TPM.
 - Analysis board: Tang Mega 138K + Dock. Handles high-speed sampling of the EM probe front-end, synced against the target's operation, and does the heavy correlation work that a microcontroller can't keep up with.
