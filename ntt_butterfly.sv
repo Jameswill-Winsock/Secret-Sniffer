@@ -1,27 +1,32 @@
-// ntt_butterfly - unified butterfly, one shared multiplier + REDC + ALU.
+// ntt_butterfly - unified butterfly. Arithmetic (mult + REDC + ALU) is now
+// EXTERNAL and shared: this module drives the mul_/redc_/alu_ ports of one
+// shared arithmetic core at the top level (also used by basemul). FSM and
+// datapath control are unchanged from the verified version.
+//
 // mode 2'd0 = CT  (forward): a'=(a+t)modq, b'=(a-t)modq, t=REDC(b*w)
 // mode 2'd1 = GS  (inverse): a'=(a+b)modq, b'=REDC((b-a)*w)
 // mode 2'd2 = SCALE        : a'=REDC(a*F_CONST), b untouched   (n^-1 pass)
 module ntt_butterfly #(
-    parameter [11:0] F_CONST = 12'd512    // fqmul(x,512)=x*128^-1 mod q
+    parameter [11:0] F_CONST = 12'd512
 )(
     input clk, input rst, input start, input [1:0] mode,
     input [7:0] addr_a, input [7:0] addr_b, input [7:0] addr_w, output done,
     output reg [7:0] mem_raddr, output reg mem_ren, input [15:0] mem_rdata,
     output reg [7:0] mem_waddr, output reg [15:0] mem_wdata, output reg mem_wen,
-    output reg [7:0] tw_addr, output reg tw_ren, input [15:0] tw_rdata
+    output reg [7:0] tw_addr, output reg tw_ren, input [15:0] tw_rdata,
+    // ---- shared arithmetic core (this module drives it while running) ----
+    output reg        mul_start, output reg [11:0] mul_a, output reg [11:0] mul_b,
+    input             mul_done,  input      [23:0] mul_prod,
+    output reg        redc_start, output reg [23:0] redc_tin,
+    input             redc_done, input      [15:0] redc_res,
+    output reg [15:0] alu_a, output reg [15:0] alu_b, output reg alu_op,
+    input      [15:0] alu_res
 );
     localparam CT=2'd0, GS=2'd1, SCALE=2'd2;
     localparam S_IDLE=4'd0,S_PRE_B=4'd1,S_CAP_B=4'd2,S_CAP_A=4'd3,S_MUL=4'd4,
                S_WMUL=4'd5,S_WREDC=4'd6,S_WR_A=4'd7,S_WR_B=4'd8,S_FIN=4'd9;
     reg [3:0] state; reg [1:0] md;
     reg [7:0] a_addr_r,b_addr_r,w_addr_r; reg [15:0] a_reg,b_reg,tw_reg,t_reg;
-    wire mul_done; wire [23:0] mul_prod; reg mul_start; reg [11:0] mul_a,mul_b;
-    mod_multiplier u_mul(.clk(clk),.rst(rst),.start(mul_start),.a(mul_a),.b(mul_b),.done(mul_done),.prod(mul_prod));
-    wire redc_done; wire [15:0] redc_res; reg redc_start; reg [23:0] redc_tin;
-    mont_redc u_redc(.clk(clk),.rst(rst),.start(redc_start),.t_in(redc_tin),.res_out(redc_res),.done(redc_done));
-    reg [15:0] alu_a,alu_b; reg alu_op; wire [15:0] alu_res;
-    alu u_alu(.a(alu_a),.b(alu_b),.op(alu_op),.res(alu_res));
     assign done = (state==S_FIN);
     always @(posedge clk) begin
         if (rst) state<=S_IDLE;

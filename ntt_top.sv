@@ -1,5 +1,5 @@
 // ============================================================================
-//  ntt_top - Kyber forward/inverse NTT + basemul accelerator
+//  shrike_ntt_top - Kyber forward/inverse NTT + basemul accelerator
 //  RP2040  <--SPI-->  FPGA  <-->  SLG47910 BRAM hard macros
 //
 //  BRAM map (RATIO=00, 512x8 each, all enables active-LOW, registered read):
@@ -160,6 +160,35 @@
     wire        bf_ren,   bf_wen,   bf_twren;
     wire [15:0] bf_wdata;
 
+    // ---- shared arithmetic core (ONE mult + REDC + ALU, time-shared) -------
+    wire        bf_mul_start, bf_redc_start, bf_alu_op;
+    wire [11:0] bf_mul_a, bf_mul_b;
+    wire [23:0] bf_redc_tin;
+    wire [15:0] bf_alu_a, bf_alu_b;
+    wire        bm_mul_start, bm_redc_start, bm_alu_op;
+    wire [11:0] bm_mul_a, bm_mul_b;
+    wire [23:0] bm_redc_tin;
+    wire [15:0] bm_alu_a, bm_alu_b;
+
+    wire        sh_mul_start  = bmrun ? bm_mul_start  : bf_mul_start;
+    wire [11:0] sh_mul_a      = bmrun ? bm_mul_a      : bf_mul_a;
+    wire [11:0] sh_mul_b      = bmrun ? bm_mul_b      : bf_mul_b;
+    wire        sh_redc_start = bmrun ? bm_redc_start : bf_redc_start;
+    wire [23:0] sh_redc_tin   = bmrun ? bm_redc_tin   : bf_redc_tin;
+    wire [15:0] sh_alu_a      = bmrun ? bm_alu_a      : bf_alu_a;
+    wire [15:0] sh_alu_b      = bmrun ? bm_alu_b      : bf_alu_b;
+    wire        sh_alu_op     = bmrun ? bm_alu_op     : bf_alu_op;
+
+    wire        sh_mul_done, sh_redc_done;
+    wire [23:0] sh_mul_prod;
+    wire [15:0] sh_redc_res, sh_alu_res;
+
+    mod_multiplier u_mul  (.clk(clk),.rst(rst),.start(sh_mul_start),.a(sh_mul_a),.b(sh_mul_b),
+                           .done(sh_mul_done),.prod(sh_mul_prod));
+    mont_redc      u_redc (.clk(clk),.rst(rst),.start(sh_redc_start),.t_in(sh_redc_tin),
+                           .res_out(sh_redc_res),.done(sh_redc_done));
+    alu            u_alu  (.a(sh_alu_a),.b(sh_alu_b),.op(sh_alu_op),.res(sh_alu_res));
+
     ntt_butterfly u_bf (
         .clk      (clk),
         .rst      (rst),
@@ -177,35 +206,45 @@
         .mem_wen  (bf_wen),
         .tw_addr  (bf_twaddr),
         .tw_ren   (bf_twren),
-        .tw_rdata (tw_rdata)
+        .tw_rdata (tw_rdata),
+        .mul_start(bf_mul_start), .mul_a(bf_mul_a), .mul_b(bf_mul_b),
+        .mul_done (sh_mul_done),  .mul_prod(sh_mul_prod),
+        .redc_start(bf_redc_start), .redc_tin(bf_redc_tin),
+        .redc_done(sh_redc_done), .redc_res(sh_redc_res),
+        .alu_a(bf_alu_a), .alu_b(bf_alu_b), .alu_op(bf_alu_op), .alu_res(sh_alu_res)
     );
 
     // ------------------------------------------------------------------------
-    //  Basemul core (A (*) B -> A), reuses its own mult/REDC internally
+    //  Basemul sequencer (A (*) B -> A) - no arithmetic, shares the core above
     // ------------------------------------------------------------------------
     reg         bm_start;
     wire        bm_done;
-    wire [7:0]  bm_araddr, bm_braddr, bm_zaddr, bm_rwaddr;
-    wire        bm_aren,   bm_bren,   bm_zren,  bm_rwen;
-    wire [15:0] bm_rwdata;
+    wire [7:0]  bm_a_raddr, bm_a_waddr, bm_braddr, bm_zaddr;
+    wire        bm_a_ren,   bm_a_wen,   bm_bren,   bm_zren;
+    wire [15:0] bm_a_wdata;
 
-    basemul u_bmul (
+    basemul_ctrl u_bmul (
         .clk    (clk),
         .rst    (rst),
         .start  (bm_start),
         .done   (bm_done),
-        .a_raddr(bm_araddr),
-        .a_ren  (bm_aren),
+        .a_raddr(bm_a_raddr),
+        .a_ren  (bm_a_ren),
         .a_rdata(a_rdata),
+        .a_waddr(bm_a_waddr),
+        .a_wdata(bm_a_wdata),
+        .a_wen  (bm_a_wen),
         .b_raddr(bm_braddr),
         .b_ren  (bm_bren),
         .b_rdata(b_rdata),
         .z_addr (bm_zaddr),
         .z_ren  (bm_zren),
         .z_rdata(tw_rdata),
-        .r_waddr(bm_rwaddr),
-        .r_wdata(bm_rwdata),
-        .r_wen  (bm_rwen)
+        .mul_start(bm_mul_start), .mul_a(bm_mul_a), .mul_b(bm_mul_b),
+        .mul_done (sh_mul_done),  .mul_prod(sh_mul_prod),
+        .redc_start(bm_redc_start), .redc_tin(bm_redc_tin),
+        .redc_done(sh_redc_done), .redc_res(sh_redc_res),
+        .alu_a(bm_alu_a), .alu_b(bm_alu_b), .alu_op(bm_alu_op), .alu_res(sh_alu_res)
     );
 
     // ------------------------------------------------------------------------
@@ -282,25 +321,25 @@
 
     // ---- coeff / A (BRAM0/1) ----
     wire        a_ren   = run   ? bf_ren
-                        : bmrun ? bm_aren
+                        : bmrun ? bm_a_ren
                         :         rdc;
     wire [7:0]  a_raddr = run   ? bf_raddr
-                        : bmrun ? bm_araddr
+                        : bmrun ? bm_a_raddr
                         :         word_addr;
     wire        a0_wen  = run   ? bf_wen
-                        : bmrun ? bm_rwen
+                        : bmrun ? bm_a_wen
                         :         (host_wr_a & ~hi);
     wire        a1_wen  = run   ? bf_wen
-                        : bmrun ? bm_rwen
+                        : bmrun ? bm_a_wen
                         :         (host_wr_a &  hi);
     wire [7:0]  a_waddr = run   ? bf_waddr
-                        : bmrun ? bm_rwaddr
+                        : bmrun ? bm_a_waddr
                         :         word_addr;
     wire [7:0]  a0_din  = run   ? bf_wdata[7:0]
-                        : bmrun ? bm_rwdata[7:0]
+                        : bmrun ? bm_a_wdata[7:0]
                         :         rx_data;
     wire [7:0]  a1_din  = run   ? bf_wdata[15:8]
-                        : bmrun ? bm_rwdata[15:8]
+                        : bmrun ? bm_a_wdata[15:8]
                         :         rx_data;
 
     // ---- twiddle (BRAM2/3) ----
