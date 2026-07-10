@@ -24,7 +24,7 @@ Initial commit ships the Shrike-Lite ML-KEM accelerator itself (1.2K LUT Renesas
 # Roadmap
 - Ship Shrike-Lite ML-KEM accelerator (nearly done; only part left is bitstream generation) as the initial concrete target.
 - Analog front-end: hand-wound loop probes, LNA, shielding, and RTL-SDR capture path validated against a known-leaky reference (e.g. an unshielded AES implementation) before touching Kyber.
-- Trigger/sync harness between target and capture board so traces are aligned to the crypto operation, not free-running.
+- Trigger/sync harness between target and capture board (via EM envelope pickup, as written above) so that transmissions are aligned.
 - Correlation Power/EM Analysis (CPA) pipeline against the Shrike-Lite target.
 - Scale the system to a TPM stand-in (Tang Primer 20K) to develop the algorithm to work with devices with large footprints and high gate counts.
 - Switch to a more realistic target (motherboard TPM) once the pipeline is validated on a known-good case.
