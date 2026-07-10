@@ -10,7 +10,7 @@ Tempest is an electromagnetic side-channel analysis platform: it captures the EM
 The core question: how much information actually leaks out of a chip's EM field during a crypto operation, and can you recover a key from it with hobbyist-tier gear? That's what I want to find out, whether we can extract useful info from something like a TPM chip onboard a motherboard.
 
 # Why EM and not power analysis
-Power analysis (shunt resistor + scope on the supply rail) is the classical approach, but it requires physically modifying the target board — desoldering, trace cuts, shunt insertion. That's fine for a $2 dev board. It's not something I'm willing to do to a motherboard TPM or anything I actually want to use again afterwards. EM probing is non-invasive: you hold a loop probe near the package and read the field. Same underlying leakage (both come from switching current), different tap point. This also opens up the possibility of reusing same hardware on different targets as well, and makes it a useful and portable piece of equipment that one can use in their research.
+Power analysis (shunt resistor + scope on the supply rail) is the classical approach, but it requires physically modifying the target board; desoldering, trace cuts, shunt insertion. Now that would be fine for a $2 dev board. It's not something I'm willing to do to a motherboard TPM or anything I actually want to use again afterwards. (Besides, I really hate tearing good looking circuits apart just for analysis; not worth it, in my opinion). EM probing is non-invasive: you hold a loop probe near the package and read the field. Same underlying leakage (both come from switching current), different tap point. This also opens up the possibility of reusing same hardware on different targets as well, and makes it a useful and portable piece of equipment that one can use in their research.
 
 # Architecture
 <img width="1529" height="654" alt="image" src="https://github.com/user-attachments/assets/4d93edb7-ad8e-4225-bf47-7403a4a83900" />
@@ -22,11 +22,12 @@ Two boards, two roles:
 Initial commit ships the Shrike-Lite ML-KEM accelerator itself (1.2K LUT Renesas board), which becomes the first real analysis target once the capture pipeline is up.
 
 # Roadmap
-- Ship Shrike-Lite ML-KEM accelerator (nearly done; see below) as the initial concrete target.
+- Ship Shrike-Lite ML-KEM accelerator (nearly done; only part left is bitstream generation) as the initial concrete target.
 - Analog front-end: hand-wound loop probes, LNA, shielding, and RTL-SDR capture path validated against a known-leaky reference (e.g. an unshielded AES implementation) before touching Kyber.
 - Trigger/sync harness between target and capture board so traces are aligned to the crypto operation, not free-running.
 - Correlation Power/EM Analysis (CPA) pipeline against the Shrike-Lite target.
-- Scale to a more realistic target (motherboard TPM) once the pipeline is validated on a known-good case.
+- Scale the system to a TPM stand-in (Tang Primer 20K) to develop the algorithm to work with devices with large footprints and high gate counts.
+- Switch to a more realistic target (motherboard TPM) once the pipeline is validated on a known-good case.
 
 # Hardware
 | Item | Est. Price (USD) | Notes |
@@ -43,10 +44,10 @@ Initial commit ships the Shrike-Lite ML-KEM accelerator itself (1.2K LUT Renesas
 | Perfboard/breadboard, decoupling caps, jumpers, enclosure/foil | $20–40 | will switch perfboards for pcb when I have a known good schematic |
 
 # Repo layout (subject to change)
-/rtl            — target-side crypto implementations (Shrike-Lite Kyber accelerator, later targets)
-/analysis       — capture + correlation pipeline (Python/NumPy for now, may push hot paths to the Mega 138K)
-/probes         — probe winding notes, LNA front-end schematics
-/docs           — writeups, leakage characterization notes
+- /rtl            : target-side crypto implementations (Shrike-Lite Kyber accelerator, later targets)
+- /analysis       : capture + correlation pipeline (Python/NumPy for now, may push hot paths to the Mega 138K)
+- /probes         : probe winding notes, LNA front-end schematics
+- /docs           : writeups, leakage characterization notes
 
 # Why this matters
 Most public EM side-channel work either targets toy AES implementations or uses lab-grade near-field scanning rigs that cost tens of thousands of dollars. There's a real gap in documented, reproducible, low-cost EM side-channel analysis against post-quantum crypto specifically; ML-KEM side-channel resistance is an active research area (and a pretty hot one too - there's a hell lot of researchers taking a crack at it) and having a from-scratch hardware+software stack to poke at it is worth more to me than a paper result I can't independently reproduce. Besides, this could be useful as an actual field tool for use case like actual chip design, where you could check your EM leakage for chip instead of relying on expensive equipment or just simulations in Synopsys or Cadence (sure, it's not for every use case, but for those where you're explicitly building your ASIC for security, it's always worth it).
