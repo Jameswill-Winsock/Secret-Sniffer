@@ -1,3 +1,6 @@
+# todo: 
+spi kinda effed up; rp2040 doesnt see the SPI op and hence it's timing out: the status poll never sees the done bit (frick my chud life)  
+
 # wat dis
 i cram the split off arithmetic and redc stuff and allat into two files, and split forward/inverse/basemul into three seperate parts to be streamed as bitstreams
 
