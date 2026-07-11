@@ -1,4 +1,4 @@
-# Tempest — EM Side-Channel Analysis Rig
+# Tempest : EM Side-Channel Analysis Rig
 latest readme for progress available [here](rtl/shrike_accel_v1/readme.md)
 # Status: 
 Early build. Target board bring-up in progress. Made for Stardance hacklcub.
@@ -16,7 +16,7 @@ Power analysis (shunt resistor + scope on the supply rail) is the classical appr
 <img width="1529" height="654" alt="image" src="https://github.com/user-attachments/assets/4d93edb7-ad8e-4225-bf47-7403a4a83900" />
 
 Two boards, two roles:
-- Target ("TPM stand-in"): Tang Primer 20K (already own the dev board; carrier/dock board is part of this request). Runs a simple crypto workload to be attacked — stands in for something like a motherboard TPM.
+- Target ("TPM stand-in"): Tang Primer 20K (already own the dev board; carrier/dock board is part of this request). Runs a simple crypto workload to be attacked : stands in for something like a motherboard TPM.
 - Analysis board: Tang Mega 138K + Dock. Handles high-speed sampling of the EM probe front-end, synced against the target's operation, and does the heavy correlation work that a microcontroller can't keep up with.
 
 Initial commit ships the Shrike-Lite ML-KEM accelerator itself (1.2K LUT Renesas board), which becomes the first real analysis target once the capture pipeline is up.
