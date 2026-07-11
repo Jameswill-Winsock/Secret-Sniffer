@@ -1,0 +1,26 @@
+
+11. Printing statistics.
+
+=== ntt_top ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      646 wires
+     1760 wire bits
+      646 public wires
+     1760 public wire bits
+       62 ports
+      248 port bits
+      653 cells
+       35   CARRY4
+       42   FDCE
+        4   FDPE
+      184   FDRE
+       39   INV
+       96   LUT2
+       73   LUT3
+       42   LUT4
+       75   LUT5
+       62   LUT6
+        1   MUXF7
+

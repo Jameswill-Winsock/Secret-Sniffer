@@ -1,0 +1,19 @@
+[                                                  ][    2] Running placer flow WLTD (666).
+[              minplacer\00003_pa03_00001_character][    2] Step character
+[              minplacer\00003_pa03_00001_character][    2] Step MinPlacerChar minplacer_skip_dont_place=0 do_shortfd=0 do_shortfd_aggressive=0 do_precomb=0 do_precomb_aggressive=0 do_chain_to_tree=0 do_used_rbb_vacan=0 do_rep=1 do_reloc=0 do_repack=0 do_swabsorb=0 do_rplan=1
+[              minplacer\00003_pa03_00001_character][    2] RbbUsage=108 PrePlaceTiming=155616.
+[                  minplacer\00003_pa03_00002_setup][    2] Step setup
+[                  minplacer\00003_pa03_00002_setup][    3] Step setup ends.
+[                     minplacer\00003_pa03_00003_wl][    3] Step wl
+[                     minplacer\00003_pa03_00003_wl][   30] Step wl returns 0. (timing=17357 cg=0)
+[                     minplacer\00003_pa03_00003_wl][   30] Updating timing 17357 vs 2147483647.
+[                 minplacer\00003_pa03_00004_repopt][   30] Step repopt
+[                 minplacer\00003_pa03_00004_repopt][   40] Step repopt returns 0. (timing=17357 cg=0)
+[                 minplacer\00003_pa03_00004_repopt][   40] Step has no netlist change.
+[                   minplacer\00003_pa03_00005_post][   40] Step post
+[                   minplacer\00003_pa03_00005_post][  110] Step post returns 0. (timing=31890R cg=0)
+[                   minplacer\00003_pa03_00005_post][  110] Updating timing 31890R vs 17357.
+[                  minplacer\00003_pa03_00006_rplan][  110] Step rplan
+[                  minplacer\00003_pa03_00006_rplan][  120] Step rplan returns 0. (timing=31890R cg=50)
+[                  minplacer\00003_pa03_00006_rplan][  120] Updating timing 31890R vs 31890R.
+[                                                  ][  120] Running placer flow WLTD ends with TRUE.
