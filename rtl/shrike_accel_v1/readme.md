@@ -33,7 +33,7 @@ jank ass ML-KEM accelerator for the vicharak shrike lite. swaps three fpga bitst
 all three tops are named ntt_top, so it's the same P&R script every time, just swap which sequencer + top you feed it.
 
 # does it fit tho
-somehow now xd
+somehow now xd ![](yipee.gif)
 
 ## forward:
 ![](forward.png)
