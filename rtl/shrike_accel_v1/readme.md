@@ -19,19 +19,19 @@ jank ass ML-KEM accelerator for the vicharak shrike lite. swaps three fpga bitst
 
 ## shared (every bitstream pulls these in):
 
-- `fqmul_unit.sv`: the arithmetic core. serial 12-cycle multiply feeding a combinational montgomery reduce. the whole trick is q=3329 and q'=3327 are sparse in binary, so both constant-multiplies in REDC collapse into shift-adds (shifts are free wiring). one 13-bit adder, no handshake, no mux fabric. this last part is what saved us — the mux fabric to share ONE of these across all three units was the thing eating the board.
+- `fqmul_unit.sv`: the arithmetic core. serial 12-cycle multiply feeding a combinational montgomery reduce. the whole trick is q=3329 and q'=3327 are sparse in binary, so both constant-multiplies in REDC collapse into shift-adds (shifts are free wiring). one 13-bit adder, no handshake, no mux fabric. this last part is what saved my ass: the mux fabric to share ONE of these across all three units was the thing eating the board.
 - `spi_target.sv`: the SPI byte interface. untouched, works, don't bother it. you have been warned.
 
 ## the three sequencers (one per bitstream):
 
-- `fq_seq_f.sv` — forward NTT only. CT-DIT butterflies, incremental addressing (no barrel shifters), 10-state FSM. literally zero inverse/basemul logic exists in the file so theres nothing for the tools to (fail to) prune.
-- `fq_seq_i.sv` — inverse NTT only. GS-DIF butterflies + the final scale-by-128⁻¹ pass.
-- `fq_seq_b.sv` — basemul only. pairwise A⊗B, add-only ALU (no subtract path even exists here).
+- `fq_seq_f.sv` : forward NTT only. CT-DIT butterflies, incremental addressing (no barrel shifters), 10-state FSM. literally zero inverse/basemul logic exists in the file so theres nothing for the tools to (fail to) prune.
+- `fq_seq_i.sv` : inverse NTT only. GS-DIF butterflies + the final scale-by-128⁻¹ pass.
+- `fq_seq_b.sv` : basemul only. pairwise A⊗B, add-only ALU (no subtract path even exists here).
 
 ## the three tops:
 
-- `ntt_top_fwd.sv` / `ntt_top_inv.sv` — coeff on BRAM0/1, twiddle on BRAM2/3. no BRAM4/5 ports — that freed silicon is why they fit.
-- `ntt_top_bm.sv` — all six BRAMs (operand B lives on 4/5).
+- `ntt_top_fwd.sv` / `ntt_top_inv.sv` : coeff on BRAM0/1, twiddle on BRAM2/3. no BRAM4/5 ports : that freed silicon is why they fit.
+- `ntt_top_bm.sv` : all six BRAMs (operand B lives on 4/5).
 
 all three tops are named ntt_top, so it's the same P&R script every time, just swap which sequencer + top you feed it.
 
@@ -48,7 +48,7 @@ somehow now xd ![](yipee.gif)
 ![](basemul.png)
 
 # how do i actually run this thing
-rp2040 does all the orchestration — loads the right bitstream over SPI before each phase, handles sequencing between phases. full kyber multiply of A,B → A:
+rp2040 does all the orchestration : loads the right bitstream over SPI before each phase, handles sequencing between phases. full kyber multiply of A,B → A:
 
 ```python
 import shrike
@@ -87,8 +87,8 @@ IO planner heads up: keep SPI + clk/rst pins identical across all three plans so
 The forward and inverse tops use only BRAM0–3 (coeff A on 0/1, twiddle on 2/3).
 The basemul top additionally uses BRAM4/5 (operand B). So:
 
-## forward.bitstream and inverse.bitstream — IO plan A
-Pin/assign these external groups (BRAM4/5 are NOT present — do not assign them):
+## forward.bitstream and inverse.bitstream : IO plan A
+Pin/assign these external groups (BRAM4/5 are NOT present : do not assign them):
 ```
 clk, clk_en, rst_n
 spi_ss_n, spi_sck, spi_mosi        (inputs)
@@ -99,7 +99,7 @@ BRAM2_*  BRAM3_*                    (twiddle ROM, lo/hi byte)
 
 Each BRAM group = RATIO[1:0], DATA_IN[7:0], WEN, WCLKEN, WRITE_ADDR[8:0], DATA_OUT[7:0], REN, RCLKEN, READ_ADDR[8:0]. Map each BRAMn_* group to the matching hard 4k-BRAM tile pins in the IO planner.
 
-## basemul.bitstream — IO plan B
+## basemul.bitstream : IO plan B
 Same as plan A plus BRAM4_* and BRAM5_* (operand B, lo/hi byte) assigned to the two remaining BRAM tiles
 
 # changes from old code
