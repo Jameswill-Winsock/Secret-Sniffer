@@ -2,7 +2,7 @@
 i cram the split off arithmetic and redc stuff and allat into two files, and split forward/inverse/basemul into three seperate parts to be streamed as bitstreams
 
 why?
-this is the most jank piece of shit code i may have written in my life, but again its my fault for going with a 1.2k LUT fpga instead of an ice40up5k and then trying to cram a kyber accelerator in here (hence why we went 177% over capacity :LO:)
+this is the most jank piece of shit code i may have written in my life, but again its my fault for going with a 1.2k LUT fpga instead of an ice40up5k and then trying to cram a kyber accelerator in here (hence why we went 177% over capacity ![](lo.webp))
 
 **question:** why the split approach? why not use a shared arithmetic core, like before?
 
