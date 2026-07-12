@@ -122,19 +122,21 @@ Commercial equipment (oscilloscope, SDR, etc.) is only used for validation and d
 # Bill of Materials
 
 | Item | Est. Price (USD) | Source | Why |
-|Tang Mega 138K + Dock | $130–175 | (add link) | Main FPGA used for synchronization and future digital processing |
+|---|---|---|---|
+|Tang Mega 138K + Dock | $130–175 | [SiPEED Store Aliexpress](https://www.aliexpress.com/item/1005006080116482.html) | Main FPGA used for synchronization and future digital processing |
 |Tang Primer 20K Carrier PCB | ~$20 | Self-designed | Carrier for the Primer module (I already own the core board) |
 |Passive Probe PCB | ~$15 | Self-designed | Shielded PCB H-field probe|
 |Active Probe PCB | ~$25 | Self-designed | Integrated low-noise amplifier |
 |Probe Calibration PCB | ~$15 | Self-designed | Repeatable EM reference source |
-|RTL-SDR | $30–40 | (add link) | Initial low-cost capture experiments |
-|Wideband LNA Components | $20–40 | (add link) | Prototype analog front-end |
-|SMA Connectors, RG178, Adapters, Attenuators |	$30–60	(add link) | RF interconnects |
-|Magnet Wire, Ferrites	$10–20 | (add link) | Probe construction |
-|Bench Linear PSU | $40–150 Local market | Low-noise power |
-|Manual XY Positioning Stage | $40–150 | (add link) | Precise probe positioning |
+|RTL-SDR | $30–40 | [RTL-SDR Aliexpress](https://www.aliexpress.com/item/1005005952566458.html) | Initial low-cost capture experiments |
+|Wideband LNA Components | $20–40 | [Mini-Circuits](https://www.minicircuits.com/) | Prototype analog front-end |
+|SMA Connectors, RG178, Adapters, Attenuators |	$30–60 | [Pasternack](https://www.pasternack.com/), [Amphenol](https://www.amphenolrf.com/en-us/), [Mini-Circuits](https://www.minicircuits.com/) | RF interconnects |
+|Magnet Wire, Ferrites	$10–20 | [Remington Industries](https://www.remingtonindustries.com), [Fair-rite](https://fair-rite.com)  | Probe construction |
+|Bench Linear PSU | $40–150 | Local market | Low-noise power |
+|Manual XY Positioning Stage | $40–150 | [Thorlabs](https://www.thorlabs.com/manual-stages) | Precise probe positioning |
 |PCB fabrication & assembly | ~$50 | JLCPCB | Manufacturing the custom boards|
-|Miscellaneous passives, shielding, perfboard | $20–40 | (add link) | Prototyping (I am not building any PCB until I have a known good circuit) |
+|Miscellaneous passives, shielding, perfboard | $20–40 | Digikey/Mouser/As per need | Prototyping (I am not building any PCB until I have a known good circuit) |
+|FTDI Programmer or SiPEED programmer | ~25-50$ | (Mouser)[https://www.mouser.in/en/ProductDetail/FTDI/FT2232H-MINI-MODULE?qs=pB3G9VbQXIf%252BpWyngo5ZjA%3D%3D&mgh=1] or a (SiPEED RV Debugger Plus)[https://www.aliexpress.com/item/1005011815481146.html] | To program the FPGAs |
 
 # Repository Layout
 - rtl: Shrike-Lite accelerator, Future hardware targets
