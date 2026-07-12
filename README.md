@@ -20,12 +20,13 @@ If you're here for a demo video, give me a little time. Renesas Go Configure is.
 
 # Description
 
-Tempest is an open hardware electromagnetic side-channel analysis platform.
+Tempest is an open hardware electromagnetic side-channel analysis platform built around a collection of custom-designed PCBs, analog front-end hardware, FPGA development boards, and open-source software for evaluating cryptographic implementations.
 
 Or, in simpler English:
 Every chip leaks tiny electromagnetic signals while it's running. Those signals aren't supposed to contain useful information... but sometimes they do. Tempest tries to measure those leaks and figure out whether they reveal anything about the cryptographic algorithm running inside.
 The project is built around Shrike-Lite, my ML-KEM (Kyber) hardware accelerator running on a hilariously tiny Renesas SLG47910 FPGA. Shrike answers one question: "Can modern post-quantum cryptography fit on ridiculously small hardware?"
-Tempest answers the obvious follow-up: "Cool. Now how badly does it leak?". 
+Tempest answers the obvious follow-up: "Cool. *Now how badly does it leak?* <img width="64" height="64" alt="trollface" src="https://github.com/user-attachments/assets/9bc998d5-3169-4e2b-b7f6-e85d66522c68" />
+". 
 Rather than buying a commercial side-channel lab, the goal is to design as much of the measurement hardware as possible from scratch so anyone can build the same setup themselves.
 
 ## Why EM instead of power analysis?
@@ -86,7 +87,7 @@ Python Analysis Pipeline
 ```
 # Hardware Designed For This Project
 
-The goal is to design as much of the hardware myself as possible instead of buying commercial equipment. (As rightly pointed out before)
+The goal is to design as much of the hardware myself as possible instead of buying commercial equipment. 
 
 | Hardware | Status |
 |---|---|
@@ -109,20 +110,29 @@ The goal is to design as much of the hardware myself as possible instead of buyi
 - Scale to the Tang Primer 20K as a larger TPM stand-in.
 - Eventually move to a real motherboard TPM once the entire workflow is validated.
 
+# Original Hardware Contributions
+Unlike the initial revision of this project, Tempest now focuses on designing the measurement hardware itself rather than simply integrating commercial equipment. Current hardware work includes:
+- Tang Primer 20K carrier board
+- Shielded PCB EM probe
+- Active probe with integrated low-noise amplifier
+- Probe calibration fixture
+- Analog filter board
+Commercial equipment (oscilloscope, SDR, etc.) is only used for validation and debugging during development.
+
 # Bill of Materials
 
 | Item | Est. Price (USD) | Source | Why |
-|Tang Mega 138K + Dock	$130–175 | (add link) | Main FPGA used for synchronization and future digital processing |
+|Tang Mega 138K + Dock | $130–175 | (add link) | Main FPGA used for synchronization and future digital processing |
 |Tang Primer 20K Carrier PCB | ~$20 | Self-designed | Carrier for the Primer module (I already own the core board) |
 |Passive Probe PCB | ~$15 | Self-designed | Shielded PCB H-field probe|
 |Active Probe PCB | ~$25 | Self-designed | Integrated low-noise amplifier |
-|Probe Calibration PCB | ~$15 |	Self-designed | Repeatable EM reference source |
+|Probe Calibration PCB | ~$15 | Self-designed | Repeatable EM reference source |
 |RTL-SDR | $30–40 | (add link) | Initial low-cost capture experiments |
 |Wideband LNA Components | $20–40 | (add link) | Prototype analog front-end |
 |SMA Connectors, RG178, Adapters, Attenuators |	$30–60	(add link) | RF interconnects |
 |Magnet Wire, Ferrites	$10–20 | (add link) | Probe construction |
-|Bench Linear PSU | $40–150	Local market | Low-noise power |
-|Manual XY Positioning Stage | $40–150	(add link) | Precise probe positioning |
+|Bench Linear PSU | $40–150 Local market | Low-noise power |
+|Manual XY Positioning Stage | $40–150 | (add link) | Precise probe positioning |
 |PCB fabrication & assembly | ~$50 | JLCPCB | Manufacturing the custom boards|
 |Miscellaneous passives, shielding, perfboard | $20–40 | (add link) | Prototyping (I am not building any PCB until I have a known good circuit) |
 
