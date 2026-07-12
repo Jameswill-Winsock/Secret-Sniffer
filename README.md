@@ -131,12 +131,12 @@ Commercial equipment (oscilloscope, SDR, etc.) is only used for validation and d
 |RTL-SDR | $30–40 | [RTL-SDR Aliexpress](https://www.aliexpress.com/item/1005005952566458.html) | Initial low-cost capture experiments |
 |Components for Active Probe PCB | $20–40 | [Mini-Circuits](https://www.minicircuits.com/) | Prototype analog front-end |
 |SMA Connectors, RG178, Adapters, Attenuators |	$30–60 | [Pasternack](https://www.pasternack.com/), [Amphenol](https://www.amphenolrf.com/en-us/), [Mini-Circuits](https://www.minicircuits.com/) | RF interconnects |
-|Magnet Wire, Ferrites	$10–20 | [Remington Industries](https://www.remingtonindustries.com), [Fair-rite](https://fair-rite.com)  | Probe construction |
+|Magnet Wire, Ferrites | $10–20 | [Remington Industries](https://www.remingtonindustries.com), [Fair-rite](https://fair-rite.com)  | Probe construction |
 |Bench Linear PSU | $40–150 | Local market | Low-noise power |
 |Manual XY Positioning Stage | $40–150 | [Thorlabs](https://www.thorlabs.com/manual-stages) (will probably get something cheaper for 35-50$) | Precise probe positioning |
 |PCB fabrication & assembly | ~$50 | JLCPCB | Manufacturing the custom boards|
 |Miscellaneous passives, shielding, perfboard | $20–40 | Digikey/Mouser/As per need | Prototyping (I am not building any PCB until I have a known good circuit) |
-|FTDI Programmer or SiPEED programmer | ~25-50$ | (Mouser)[https://www.mouser.in/en/ProductDetail/FTDI/FT2232H-MINI-MODULE?qs=pB3G9VbQXIf%252BpWyngo5ZjA%3D%3D&mgh=1] or a (SiPEED RV Debugger Plus)[https://www.aliexpress.com/item/1005011815481146.html] | To program the FPGAs |
+|FTDI Programmer or SiPEED programmer | ~25-50$ | [Mouser](https://www.mouser.in/en/ProductDetail/FTDI/FT2232H-MINI-MODULE?qs=pB3G9VbQXIf%252BpWyngo5ZjA%3D%3D&mgh=1) or a [SiPEED RV Debugger Plus](https://www.aliexpress.com/item/1005011815481146.html) | To program the FPGAs |
 
 Grand total: approx ~430$ (can be rounded off to 400, if I skip the thorlabs stuff and get a cheap used bench power supply)
 The oscilloscope, precision positioning stage, and laboratory power supply have been removed from the grant request. The initial revision of Tempest is designed to be developed using low-cost hardware and custom-designed PCBs, with higher-end laboratory equipment treated as optional future upgrades rather than project requirements.
