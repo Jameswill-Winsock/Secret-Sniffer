@@ -9,6 +9,10 @@ Early build. Built for Stardance @ Hack Club.
 ## Done:
 - Shrike-Lite ML-KEM accelerator is functionally complete (currently fighting Renesas place-and-route to get the final bitstream out).
 - Finished designing the Tang Primer 20K carrier board.
+<img width="1684" height="856" alt="image" src="https://github.com/user-attachments/assets/191265fc-8c2c-45bf-b6a4-d7e86c71f03e" />
+<img width="1192" height="842" alt="image" src="https://github.com/user-attachments/assets/0d7c0e82-450d-448b-9c26-a8b663571829" />
+
+
 ## In progress:
 - Designing the rest of the Tempest hardware stack (probe, analog front-end, calibration hardware, etc.)
 
@@ -35,7 +39,7 @@ EM analysis measures the exact same switching currents, except instead of touchi
 <img width="1529" height="654" alt="image" src="https://github.com/user-attachments/assets/4d93edb7-ad8e-4225-bf47-7403a4a83900" />
 
 Tempest is really two projects that work together.
-
+```
 Shrike
 (Resource-constrained ML-KEM accelerator)
 
@@ -59,11 +63,10 @@ Correlation analysis
             ↓
 
 Can we recover useful information?
-
-
+```
 
 **The long-term hardware stack looks like this:**
-
+```
 Target FPGA / TPM
         │
         ▼
@@ -80,7 +83,7 @@ Capture Hardware
         │
         ▼
 Python Analysis Pipeline
-
+```
 # Hardware Designed For This Project
 
 The goal is to design as much of the hardware myself as possible instead of buying commercial equipment. (As rightly pointed out before)
