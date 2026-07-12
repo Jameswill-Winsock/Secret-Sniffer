@@ -25,7 +25,7 @@ Tempest is an open hardware electromagnetic side-channel analysis platform built
 Or, in simpler English:
 Every chip leaks tiny electromagnetic signals while it's running. Those signals aren't supposed to contain useful information... but sometimes they do. Tempest tries to measure those leaks and figure out whether they reveal anything about the cryptographic algorithm running inside.
 The project is built around Shrike-Lite, my ML-KEM (Kyber) hardware accelerator running on a hilariously tiny Renesas SLG47910 FPGA. Shrike answers one question: "Can modern post-quantum cryptography fit on ridiculously small hardware?"
-Tempest answers the obvious follow-up: "Cool. *Now how badly does it leak?* <img width="16" height="16" alt="trollface" src="https://github.com/user-attachments/assets/9bc998d5-3169-4e2b-b7f6-e85d66522c68" />
+Tempest answers the obvious follow-up: "Cool. *Now how badly does it leak?* <img width="32" height="32" alt="trollface" src="https://github.com/user-attachments/assets/9bc998d5-3169-4e2b-b7f6-e85d66522c68" />
 ". 
 Rather than buying a commercial side-channel lab, the goal is to design as much of the measurement hardware as possible from scratch so anyone can build the same setup themselves.
 
