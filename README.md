@@ -90,13 +90,13 @@ The goal is to design as much of the hardware myself as possible instead of buyi
 
 | Hardware | Status |
 |---|---|
-|Shrike-Lite ML-KEM Accelerator | ✅ Complete (bitstream generation pending) |
-|Tang Primer 20K Carrier Board | ✅ Complete |
-|Shielded PCB EM Probe | 🚧 In design |
-|Active Probe / LNA | 🚧 In design |
-|Analog Filter Board | 🚧 Planned |
-|Probe Calibration Board | 🚧 Planned |
-|FPGA Capture Hardware | 🔮 Future revision |
+|Shrike-Lite ML-KEM Accelerator | Complete (bitstream generation pending) |
+|Tang Primer 20K Carrier Board | Complete |
+|Shielded PCB EM Probe | In design |
+|Active Probe / LNA | In design |
+|Analog Filter Board | Planned |
+|Probe Calibration Board | Planned |
+|FPGA Capture Hardware | Future revision |
 
 # Roadmap
 - Finish Shrike-Lite bring-up.
