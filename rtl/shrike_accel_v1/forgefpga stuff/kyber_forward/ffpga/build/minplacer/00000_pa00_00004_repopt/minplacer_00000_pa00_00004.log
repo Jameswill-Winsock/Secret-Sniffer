@@ -1,9 +1,9 @@
-The current time is Sat Jul 11 21:39:42 2026
+The current time is Sun Jul 12 22:11:59 2026
 CPUs=4
 EXE="C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23\eda-placer.exe"
 BuildDir=C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23
 BuildPath="C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23"
-CWD=C:\Users\Madhavansh\AppData\Local\Temp\jpKKRTZk\out\minplacer\00000_pa00_00004_repopt
+CWD=C:\Users\Madhavansh\AppData\Local\Temp\LkwZTjhn\out\minplacer\00000_pa00_00004_repopt
 LogFile=minplacer_00000_pa00_00004.log
 PrintScreen=..\_00000_pa00_stdout.txt
 Command line: C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23\eda-placer.exe -print_screen ..\_00000_pa00_stdout.txt -eflx_call_minplacer 00000_pa00_00004_repopt__out__ntt_top
@@ -156,10 +156,10 @@ TileRange read: File is not given. Use whole chip.
 Read 166 RBB-locations from EFLX file.
 Reading timing_def file ..\..\minplacer\00000_pa00_00002_setup\minplacer.timing_def
 pPipeAlloc: OptMode=1 PppFfInsertDone=0 MinPipeRtDly=98 #Chain=0 AveChainLen=0.0 MaxChainLen=0 #Net=0 AveChainFan=0.0 MaxChainFan=0 #MixedZeroFan=0 Opt_UseLatency=0 OptLine_RightSlack_WorseThreshold=100
-(0) INI TWL = 77560(39000, 38560) ELAPSE=0
+(0) INI TWL = 77560(39000, 38560) ELAPSE=1
 CROSS-TILE STAT: [0]=1621
-(1) OPT TWL = 77560(39000, 38560) ELAPSE=0
-(2) FIN TWL = 77560(39000, 38560) ELAPSE=0
+(1) OPT TWL = 77560(39000, 38560) ELAPSE=1
+(2) FIN TWL = 77560(39000, 38560) ELAPSE=1
 CROSS-TILE STAT: [0]=1621
 Wrote 65 RBB-locations out of 65 core insts and 29 chained insts to EFLX file ..\..\minplacer\00000_pa00_00004_repopt\minplacer_rbbloc.txt.
 Wrote 72 RBB-locations out of 72 IOB insts to EFLX file ..\..\minplacer\00000_pa00_00004_repopt\minplacer_rbbloc.txt.
@@ -218,7 +218,7 @@ pProblemFin.
 Min-placement step ends: Replication (mode=1). Runtime: 0:0:10 (CPU time), 0:0:10 (real time); peak memory: 1338MB.
 
 
-The current time is Sat Jul 11 21:39:52 2026
+The current time is Sun Jul 12 22:12:09 2026
 
 
 

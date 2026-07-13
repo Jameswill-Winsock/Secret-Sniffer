@@ -1,15 +1,15 @@
-LOG STARTS The current time is Sat Jul 11 21:39:19 2026
+LOG STARTS The current time is Sun Jul 12 22:11:33 2026
 TA took 0 seconds.
-LOG ENDS The current time is Sat Jul 11 21:39:22 2026
+LOG ENDS The current time is Sun Jul 12 22:11:34 2026
 
 
 
-The current time is Sat Jul 11 21:39:22 2026
+The current time is Sun Jul 12 22:11:34 2026
 CPUs=4
 EXE="C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23\eda-placer.exe"
 BuildDir=C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23
 BuildPath="C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23"
-CWD=C:\Users\Madhavansh\AppData\Local\Temp\jpKKRTZk\out\minplacer\00000_pa00_00003_wl
+CWD=C:\Users\Madhavansh\AppData\Local\Temp\LkwZTjhn\out\minplacer\00000_pa00_00003_wl
 LogFile=minplacer_00000_pa00_00003.log
 PrintScreen=..\_00000_pa00_stdout.txt
 Command line: C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23\eda-placer.exe -print_screen ..\_00000_pa00_stdout.txt -eflx_call_minplacer 00000_pa00_00003_wl__out__ntt_top
@@ -166,7 +166,7 @@ pDelayLibIni. pdelay_estimate_pppff_delay=120
 TileRange read: File is not given. Use whole chip.
 Reading timing_def file ..\..\minplacer\00000_pa00_00002_setup\minplacer.timing_def
 pPipeAlloc: OptMode=1 PppFfInsertDone=0 MinPipeRtDly=98 #Chain=0 AveChainLen=0.0 MaxChainLen=0 #Net=0 AveChainFan=0.0 MaxChainFan=0 #MixedZeroFan=0 Opt_UseLatency=0 OptLine_RightSlack_WorseThreshold=100
-(0): Ini TileRange={0,1; 0,1}. IsTiny=0 IsLowUtil=0. CurMem=238972928 PeakMem=373862400
+(0): Ini TileRange={0,1; 0,1}. IsTiny=0 IsLowUtil=0. CurMem=239083520 PeakMem=373964800
 ALWAYS_CLKPLC=0
 RandomPlacement ends.
 FORCE(1): Initial random illegal placement generated.
@@ -180,8 +180,8 @@ PANN_TILERANGE ENDS TIMESPENT=0
 PANN_TILERANGE LayerMask=1 TileRange={0,1; 0,1} RangeDivider=4 WL=125830 (60680, 65150) StartingIter=0 NumIters=1
 PANN_TILERANGE Add LAYER_M to the layermask.
 Improving the placement of 65 instances for resource type(s) of RBB-L RBB-M: ..............................................................................................................
-PANN_TILERANGE  (iter=0) WL=77560 (39000, 38560) TIMESPENT=12
-PANN_TILERANGE ENDS TIMESPENT=12
+PANN_TILERANGE  (iter=0) WL=77560 (39000, 38560) TIMESPENT=16
+PANN_TILERANGE ENDS TIMESPENT=16
 CROSS-TILE STAT: [0]=1621
 Wrote 65 RBB-locations out of 65 core insts and 29 chained insts to EFLX file ..\..\minplacer\00000_pa00_00003_wl\minplacer_rbbloc.txt.
 Wrote 72 RBB-locations out of 72 IOB insts to EFLX file ..\..\minplacer\00000_pa00_00003_wl\minplacer_rbbloc.txt.
@@ -234,12 +234,12 @@ Placement timing:
 
 
 pDelayLibFin
-(55): Fin. CurMem=32624640 PeakMem=373862400
+(55): Fin. CurMem=35254272 PeakMem=373964800
 pProblemFin.
-Min-placement step ends: Global placement and legalization. Runtime: 0:0:20 (CPU time), 0:0:20 (real time); peak memory: 1305MB.
+Min-placement step ends: Global placement and legalization. Runtime: 0:0:25 (CPU time), 0:0:25 (real time); peak memory: 1305MB.
 
 
-The current time is Sat Jul 11 21:39:42 2026
+The current time is Sun Jul 12 22:11:59 2026
 
 
 
